@@ -1,0 +1,79 @@
+import java.util.*;
+//create a class draw tree
+class DrawTree
+{
+    public String[] draw(int[] parents, String[] names)
+    {
+        int rootIndex = findtheRoot(parents); //integer the rootindex
+        
+        List<String> result = new ArrayList<>();
+        
+        drawinSubtree(parents, names, rootIndex, "", result); //draw from the subtree for the names parents and the rootindex
+        
+        return result.toArray(new String[result.size()]);
+        
+    }
+    private int findtheRoot(int[] parents) //private integer 
+    {
+        for (int i = 0; i < parents.length; i++) 
+        {
+            if (parents[i] == -1) //if statement if the parents integer is == to -1 we return i
+                
+            {
+                return i;
+            }
+            
+        }
+        
+        return -1; // invalid input
+    }
+
+    private void drawinSubtree(int[] parents, String[] names, int rootIndex, String prefix, List<String> result)
+    {
+        result.add(prefix + "+-" + names[rootIndex]);
+        //List the integer of children on an array list
+        List<Integer> children = new ArrayList<>();
+        
+        for (int i = 0; i < parents.length; i++) //if sttement 
+        {
+            if (parents[i] == rootIndex)
+            {
+                
+                children.add(i);
+                
+            }
+            
+        }
+  children.sort(Comparator.comparingInt(i -> i));
+        
+  for (int child : children) //for loop to generate the children
+        {
+      
+            drawinSubtree(parents, names, child, prefix + " |", result); //draws the parents names and the chidren
+            
+        }
+  
+        
+    }
+    
+}
+
+public class DrawTreeMain //pubblic class drawtreemain
+{
+    public static void main(String[] args)
+    {
+        DrawTree drawTree = new DrawTree();
+        
+        int[] parents = {-1, 0, 1, 1, 0, 0, 5, 5}; //here are the int number parents
+        
+        String[] names = {"Root", "SubB", "LEAF1", "LEAF2", "LEAF3", "SubA", "LEAF4", "LEAF5"}; //here are the names that were given
+        String[] result = drawTree.draw(parents, names);//string resulys for the parents and the names
+        
+        for (String line : result) //for loop to string the results
+        {
+            
+            System.out.println(line); //to print out the line to the screen for the user to see
+            
+        }
+    }
+}
